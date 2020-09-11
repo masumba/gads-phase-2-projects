@@ -1,18 +1,40 @@
 # Associate Cloud Engineer: Learning Phase 1 Main Track Channel (2020)
-## Course: Google Cloud Platform Fundamentals - Core Infrastructure
-## Module: Getting Started with Google Cloud Platform
-### LAB: Infrastructure Preview
+## Course: Course: Essential Google Cloud Infrastructure: Core Services
+## Module: Resource Management
+### LAB: Examining Billing data with BigQuery
 
 ### Objectives
 
 In this lab, you learn how to perform the following tasks:
 
-* Create a Compute Engine virtual machine using the Google Cloud Platform (GCP) Console.
-  
-*  Create a Compute Engine virtual machine using the gcloud command-line interface.
-  
-*  Connect between the two instances.
+* Sign in to BigQuery from the Cloud Console
 
-### Steps
+* Create a dataset
 
-1. Step
+* Create a table
+
+* Import data from a billing CSV file stored in a bucket
+
+* Run complex queries on a larger dataset
+
+### Step:1 Create a dataset
+
+    bq --location=US mk -d \
+    --default_table_expiration 86400000 \
+    imported_billing_data
+    
+## Step:2 Create a table and import
+    
+    bq mk \
+    -t \
+    --expiration 3600 \
+    --description "This is my table" \
+    --label organization:development \
+    imported_billing_data.imported_billing_data \
+    qtr:STRING,sales:FLOAT,year:STRING
+    
+    bq load \
+    --source_format=CSV \
+    --skip_leading_rows=1 \
+    imported_billing_data.imported_billing_data \
+    gs://cloud-training/archinfra/export-billing-example.csv
