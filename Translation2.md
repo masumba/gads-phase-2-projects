@@ -30,11 +30,18 @@ In this lab, you learn how to perform the following tasks:
     --expiration 3600 \
     --description "This is my table" \
     --label organization:development \
-    imported_billing_data.imported_billing_data \
-    qtr:STRING,sales:FLOAT,year:STRING
+    imported_billing_data.sampleinfotable
     
     bq load \
+    --autodetect \
     --source_format=CSV \
     --skip_leading_rows=1 \
-    imported_billing_data.imported_billing_data \
+    imported_billing_data.sampleinfotable \
     gs://cloud-training/archinfra/export-billing-example.csv
+    
+## Step:3 Compose a simple query
+    
+    bq query --use_legacy_sql=false \
+    'SELECT * FROM `imported_billing_data.sampleinfotable`
+     WHERE Cost > 0'
+    
